@@ -119,17 +119,22 @@
   <ItemGroup>
     <ClInclude Include="Bvh.h" />
     <ClInclude Include="Hierarchy.h" />
-    <ClInclude Include="Joint.h" />
+    <ClInclude Include="BvhJoint.h" />
     <ClInclude Include="Motion.h" />
     <ClInclude Include="Offset.h" />
+    <ClInclude Include="Xml.h" />
+    <ClInclude Include="XmlJoint.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bvh.cpp" />
     <ClCompile Include="Hierarchy.cpp" />
-    <ClCompile Include="Joint.cpp" />
+    <ClCompile Include="BvhJoint.cpp" />
     <ClCompile Include="Motion.cpp" />
     <ClCompile Include="Offset.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="BvhToXml.cpp" />
+    <ClCompile Include="Xml.cpp" />
+    <ClCompile Include="XmlJoint.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

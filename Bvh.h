@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Motion.h"
-#include "Joint.h"
+#include "BvhJoint.h"
 #include <iostream>
 #include <string>
 #include <stdio.h>
@@ -16,7 +16,7 @@
 #define Yrotation 0x40
 
 
-namespace BVH
+namespace Loader
 {
 	class Bvh
 	{
@@ -35,11 +35,21 @@ namespace BVH
 		/// Loads motion data from a frame into local matrices
 		void moveTo(unsigned frame);
 
-		const Joint* getRootJoint() const { return rootJoint; }
-		unsigned getNumFrames() const { return motionData.num_frames; }
+		Joint* getRootJoint(){ return rootJoint; }
+		unsigned getNumFrames(){ return motionData.num_frames; }
+
+		/// Initialize global coordinate for each joints
+		void initCoord();
+
+		/// Recalculate global coordinate for each joints
+		void reCalculateCoord(Joint* joint, Eigen::Quaternionf Q, Joint* from);
 		
 		Joint* rootJoint;
 		Motion motionData;
+
+	private:
+		void jointRecursiveCall(Joint *joint);
+
 	};
 
 }

@@ -1,7 +1,7 @@
 #pragma once
-#include "Joint.h"
+#include "BvhJoint.h"
 
-namespace BVH
+namespace Loader
 {
 	class Hierarchy
 	{

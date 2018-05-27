@@ -1,9 +1,10 @@
 #include "Bvh.h"
 
-#define trim(a) std::remove(a.begin(), a.end(), ' ')
+#define trim(a) remove(a.begin(), a.end(), ' ')
 
-namespace BVH
+namespace Loader
 {
+	using namespace std;
 	Bvh::Bvh()
 	{
 		rootJoint = NULL; 
@@ -15,16 +16,16 @@ namespace BVH
 	{
 	}
 
-	Joint* Bvh::loadJoint(std::istream& stream, Joint* parent) {
+	Joint* Bvh::loadJoint(istream& stream, Joint* parent) {
 		Joint* joint = new Joint;
 		joint->parent = parent;
 
 		// load joint name
-		std::string* name = new std::string;
+		string* name = new string;
 		stream >> *name;
 		joint->name = name->c_str();
 
-		std::string tmp;
+		string tmp;
 		//setting local matrix to identity
 		joint->matrix = Eigen::Matrix4f::Identity(4, 4);
 
@@ -90,8 +91,8 @@ namespace BVH
 				return joint;
 		}
 	}
-	void Bvh::loadHierarchy(std::istream& stream) {
-		std::string tmp;
+	void Bvh::loadHierarchy(istream& stream) {
+		string tmp;
 		while (stream.good()) {
 			stream >> tmp;
 			trim(tmp);
@@ -101,8 +102,8 @@ namespace BVH
 				loadMotion(stream);
 		}
 	}
-	void Bvh::loadMotion(std::istream& stream) {
-		std::string tmp;
+	void Bvh::loadMotion(istream& stream) {
+		string tmp;
 		while (stream.good()) {
 			stream >> tmp;
 			trim(tmp);
@@ -118,12 +119,12 @@ namespace BVH
 				//creating motion data array
 				motionData.data = new float[num_frames * num_channels];
 
-				std::cout << num_frames * num_channels << std::endl;
+				cout << num_frames * num_channels << endl;
 
 				for (int frame = 0; frame<num_frames; frame++) {
 					for (int channel = 0; channel<num_channels; channel++) {
 						float x;
-						std::stringstream ss;
+						stringstream ss;
 						stream >> tmp; ss << tmp; ss >> x;
 						int index = frame * num_channels + channel;
 						motionData.data[index] = x;
@@ -133,15 +134,15 @@ namespace BVH
 		}
 	}
 
-	void Bvh::load(const std::string& filename) {
-		std::fstream file;
-		file.open(filename.c_str(), std::ios_base::in);
+	void Bvh::load(const string& filename) {
+		fstream file;
+		file.open(filename.c_str(), ios_base::in);
 		if (file.is_open()) {
-			std::string line;
+			string line;
 			while (file.good()) {
 				file >> line;
 				trim(line);
-				if (line == std::string("HIERARCHY"))
+				if (line == string("HIERARCHY"))
 					loadHierarchy(file);
 				break;
 			}
@@ -149,7 +150,45 @@ namespace BVH
 		}
 	}
 
+	void Bvh::initCoord() {
+		
+	}
+
 	void Bvh::moveTo(unsigned frame) {
 
+	}
+
+	Offset rotatePoint(Offset point, Eigen::Quaternionf q) {
+		Eigen::Quaternionf p = Eigen::Quaternionf(0, point.x, point.y, point.z);
+		p = (q * p) * q.inverse();
+		return Offset(p.vec()[0], p.vec()[1], p.vec()[2]);
+	}
+
+	void Bvh::reCalculateCoord(Joint* joint, Eigen::Quaternionf q, Joint* from) {
+		Eigen::Quaternionf q2;
+		if (from != NULL) {
+			q2 = joint->q;
+			q2 = q2 * q;
+			Offset afterRot = rotatePoint(joint->offset, q);
+			joint->coord = from->coord + afterRot;
+		}
+
+		if (joint->parent != from && joint->parent != NULL) reCalculateCoord(joint->parent, q2, joint);
+		for (auto &child : joint->children) {
+			if (child != from) reCalculateCoord(child, q2, joint);
+		}
+	}
+
+	void Bvh::jointRecursiveCall(Joint *joint)
+	{
+		joint->q = Eigen::Quaternionf();
+		if (joint == getRootJoint()) {
+			joint->origin_coord = joint->coord = Offset();
+		}
+		else {
+			joint->origin_coord = joint->coord = joint->parent->coord + joint->offset;
+		}
+		for (auto& child : joint->children)
+			jointRecursiveCall(child);
 	}
 }

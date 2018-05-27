@@ -1,6 +1,6 @@
 #include "Motion.h"
 
-namespace BVH
+namespace Loader
 {
 	Motion::Motion()
 	{

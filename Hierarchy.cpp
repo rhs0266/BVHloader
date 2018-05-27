@@ -1,5 +1,5 @@
 #include "Hierarchy.h"
-namespace BVH
+namespace Loader
 {
 	Hierarchy::Hierarchy()
 	{

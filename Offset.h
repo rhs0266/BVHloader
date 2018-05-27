@@ -1,5 +1,5 @@
 #pragma once
-namespace BVH
+namespace Loader
 {
 	class Offset
 	{
@@ -7,6 +7,9 @@ namespace BVH
 		Offset();
 		Offset(float _x, float _y, float _z);
 		virtual ~Offset();
+
+		Offset operator+(const Offset& rhs);
+		Offset operator-(const Offset& rhs);
 
 		float x, y, z;
 	};

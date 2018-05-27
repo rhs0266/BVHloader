@@ -2,7 +2,7 @@
 #include "Bvh.h"
 #pragma comment (linker,"/STACK:36777216")
 
-using namespace BVH;
+using namespace Loader;
 
 
 Bvh *bvh;
