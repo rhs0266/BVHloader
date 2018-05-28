@@ -10,6 +10,7 @@ namespace Loader
 
 		Offset operator+(const Offset& rhs);
 		Offset operator-(const Offset& rhs);
+		Offset operator/(const float& rhs);
 
 		float x, y, z;
 	};

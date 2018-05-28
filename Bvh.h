@@ -39,16 +39,13 @@ namespace Loader
 		unsigned getNumFrames(){ return motionData.num_frames; }
 
 		/// Initialize global coordinate for each joints
-		void initCoord();
+		void jointRecursiveCall(Joint *joint);
 
 		/// Recalculate global coordinate for each joints
 		void reCalculateCoord(Joint* joint, Eigen::Quaternionf Q, Joint* from);
 		
 		Joint* rootJoint;
 		Motion motionData;
-
-	private:
-		void jointRecursiveCall(Joint *joint);
 
 	};
 

@@ -23,4 +23,8 @@ namespace Loader
 	Offset Offset::operator-(const Offset& rhs) {
 		return Offset(x - rhs.x, y - rhs.y, z - rhs.z);
 	}
+
+	Offset Offset::operator/(const float& rhs){
+		return Offset(x/rhs, y/rhs, z/rhs);
+	}
 }

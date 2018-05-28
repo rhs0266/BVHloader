@@ -23,7 +23,7 @@ namespace Loader
 
 	void Xml::print() {
 		using namespace std;
-		cout << "<?xml version=\"1.0\" encoding=\"UTF - 8\"?>" << endl;
+		cout << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
 		cout << "<Skeleton name = \"" << name << "\">" << endl;
 
 		for (auto &joint : Joints)

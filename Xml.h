@@ -13,7 +13,7 @@ namespace Loader
 		void addJoint(std::string type, std::string name, std::string parent_name,
 			float xSize, float ySize, float zSize, float mass,
 			Offset Body, Offset Joint,
-			float lowerLimit, float upperLimit);
+			float lowerLimit = 0, float upperLimit = 0);
 
 
 		void print();

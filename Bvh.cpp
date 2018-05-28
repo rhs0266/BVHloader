@@ -67,7 +67,7 @@ namespace Loader
 				joint->channels_order = new short[joint->num_channels];
 
 			}
-			else if (tmp == "Joint") {
+			else if (tmp == "JOINT") {
 				Joint* tmp_joint = loadJoint(stream, joint);
 
 				tmp_joint->parent = joint;
@@ -119,7 +119,7 @@ namespace Loader
 				//creating motion data array
 				motionData.data = new float[num_frames * num_channels];
 
-				cout << num_frames * num_channels << endl;
+//				cout << num_frames * num_channels << endl;
 
 				for (int frame = 0; frame<num_frames; frame++) {
 					for (int channel = 0; channel<num_channels; channel++) {
@@ -150,10 +150,6 @@ namespace Loader
 		}
 	}
 
-	void Bvh::initCoord() {
-		
-	}
-
 	void Bvh::moveTo(unsigned frame) {
 
 	}
@@ -181,7 +177,6 @@ namespace Loader
 
 	void Bvh::jointRecursiveCall(Joint *joint)
 	{
-		joint->q = Eigen::Quaternionf();
 		if (joint == getRootJoint()) {
 			joint->origin_coord = joint->coord = Offset();
 		}
